@@ -13,7 +13,7 @@ body {
 .col-xs-12 {
   padding-left: 0 !important;
   padding-right: 0 !important; }
-  
+
 header .well {
   padding-top: 5px;
   padding-bottom: 5px; }
@@ -26,6 +26,7 @@ h1, h2, h3, h4, h5 {
   color: #2dbe60; }
 a:link, a:visited, a:hover, a:active {
   color: #2dbe60; }
+
 .bootsy_text_area {
   width: 100%;
   border-color: #ccc;
@@ -40,6 +41,7 @@ i.fa-trash-o {
   margin-left: 1em; }
   i.fa-trash-o:hover {
     color: #999; }
+    
 .wysihtml5-toolbar .btn-default {
   color: #999; }
 input#note_title {
