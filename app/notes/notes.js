@@ -38,6 +38,16 @@ noteApp.service('NotesBackend', function($http) {
     });
   };
 
+  this.updateNote = function(note) {
+    var self = this;
+    $http.put(apiBasePath + 'notes/' + note.id, {
+      api_key: apiKey,
+      note: note
+    }).success(function(newNoteData) {
+      self.fetchNotes(); // maybe just update the single note in `var notes`?
+    })
+  };
+
 });
 
 noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
@@ -60,12 +70,22 @@ noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
     }
   };
 
+  $scope.cloneNote = function(note) {
+    return JSON.parse(Json.stringify(note));
+  }
+
   $scope.loadNote = function(noteId) {
-    $scope.note = this.findNote(noteId);
+    // fixes the auto update in the sidebar as we type
+    $scope.note = this.cloneNote(this.findNote(noteId));
   };
 
   $scope.commit = function() {
-    NotesBackend.postNote($scope.note);
+    if ($scope.note && $scope.note.id) {
+      // update
+      NotesBackend.updateNote($scope.note);
+    } else {
+      NotesBackend.postNote($scope.note);
+    }
   };
 
 });
