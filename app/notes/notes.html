@@ -3,7 +3,14 @@
     <input type="text" name="title" id="note_title" placeholder="Title your note" ng-model="note.title" focus-on="noteCleared">
   </p>
   <p>
-    <textarea name="body_html" id="note_body_html" ng-model="note.body_html" placeholder="Just start typing..."></textarea>
+    <text-angular
+      ta-toolbar="[
+        ['bold', 'italics', 'underline'],
+        ['ul', 'ol', 'indent', 'outdent'],
+        ['html'],
+        ['insertLink']]"
+      name="body_html" id="note_body_html" ng-model="note.body_html"
+      placeholder="Just start typing..."></text-angular>
   </p>
   <div class="form-actions">
     <!-- <input type="submit" name="commit" value="{{ note.id ? 'Update' : 'Create' }} Note" class="btn btn-default"> -->

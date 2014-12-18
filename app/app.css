@@ -41,7 +41,7 @@ i.fa-trash-o {
   margin-left: 1em; }
   i.fa-trash-o:hover {
     color: #999; }
-    
+
 .wysihtml5-toolbar .btn-default {
   color: #999; }
 input#note_title {
@@ -95,3 +95,7 @@ ul#notes {
   width: 360px; }
 span.login {
   margin-left: 1em; }
+
+.ta-editor {
+  margin-top: 0.4em;
+}

@@ -13,7 +13,8 @@
         ng-click="loadNote(note.id)"
         ng-repeat="note in notes() | limitTo: 10">
         <div class="note-title">{{ note.title }}</div>
-        <div class="note-body">{{ note.body_text }}</div>
+        <!-- <div class="note-body">{{ note.body_html }}</div> -->
+        <div class="note-body" ta-bind ng-model="note.body_html"></div>
       </li>
     </ul>
 </nav>
