@@ -1,13 +1,23 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+var app = angular.module('myApp', [
   'ngRoute',
   'myApp.view1',
   'myApp.view2',
   'myApp.version',
   'myApp.notes'
-]).
-config(['$routeProvider', function($routeProvider) {
+]);
+
+app.config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/notes'});
 }]);
+
+// <input focus-on="noteCleared">
+app.directive('focusOn', function() {
+  return function(scope, element, attributes) {
+    scope.$on(attributes.focusOn, function() {
+      element[0].focus();
+    });
+  };
+});
