@@ -1,5 +1,15 @@
 <nav id="sidebar">
   <div class="well">
+    <!-- LAB: -->
+    <!-- Add a button here and bind it to a function to clear the contents of the form -->
+    <!-- NEW NOTE BUTTON -->
+    <!--  -->
+    <!-- <input type="button" value="Clear Contents" class="btn btn-default" ng-model=""> -->
+    <button class="new-note btn btn-default" ng-click="clearNote()">
+      <i class="fa fa-plus-circle"></i>
+      New Note
+    </button>
+    <!--  -->
     <h3 ng-show="hasNotes()">My Notes</h3>
     <ul ng-show="hasNotes()">
       <li id="note_{{ note.id }}"

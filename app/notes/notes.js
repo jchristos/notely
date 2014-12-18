@@ -62,6 +62,14 @@ noteApp.service('NotesBackend', function($http) {
 noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
   NotesBackend.fetchNotes();
 
+  $scope.buttonText = function(note) {
+    if (note && note.id) {
+      return 'Update Note';
+    } else {
+      return 'Create Note';
+    }
+  };
+
   $scope.notes = function() {
     return NotesBackend.getNotes();
   };
@@ -90,11 +98,15 @@ noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
 
   $scope.commit = function() {
     if ($scope.note && $scope.note.id) {
-      // update
       NotesBackend.updateNote($scope.note);
     } else {
       NotesBackend.postNote($scope.note);
     }
+  };
+
+  $scope.clearNote = function() {
+    $scope.note = {};
+    document.getElementById('note_title').focus();
   };
 
 });

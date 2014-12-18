@@ -6,6 +6,7 @@
     <textarea name="body_html" id="note_body_html" ng-model="note.body_html" placeholder="Just start typing..."></textarea>
   </p>
   <div class="form-actions">
-    <input type="submit" name="commit" value="Add Note" class="btn btn-default">
+    <!-- <input type="submit" name="commit" value="{{ note.id ? 'Update' : 'Create' }} Note" class="btn btn-default"> -->
+    <input type="submit" name="commit" value="{{ buttonText(note) }}" class="btn btn-default">
   </div>
 </form>
