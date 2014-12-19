@@ -5,12 +5,12 @@ angular.module('myApp.login', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/login', {
     templateUrl: 'login/login.html',
-    controller: 'loginController'
+    controller: 'LoginController'
   });
 }])
 
-.controller('loginController', ['$scope', function($scope) {
+.controller('LoginController', ['$scope', 'NotesBackend', function($scope, NotesBackend) {
   $scope.submit = function() {
-    console.log('submitted');
+    NotesBackend.fetchUser($scope.user);
   };
 }]);

@@ -3,6 +3,7 @@
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', [
   'ngRoute',
+  'ngCookies',
   'textAngular',
   'myApp.view1',
   'myApp.view2',
@@ -24,26 +25,49 @@ app.directive('focusOn', function() {
   };
 });
 
-app.service('NotesBackend', function($http) {
+app.service('NotesBackend', function($http, $cookies) {
 
   var apiBasePath = 'https://elevennote-nov-2014.herokuapp.com/api/v1/';
   var postNotePath = apiBasePath + 'notes';
-  var apiKey = '$2a$10$ZDfkfFq7JtH4CK3w3DGkTeTOWK0XmLoGvUSew0DrEcynVPGfv8lei';
+  // var user.api_key = '$2a$10$ZDfkfFq7JtH4CK3w3DGkTeTOWK0XmLoGvUSew0DrEcynVPGfv8lei';
   var notes = [];
+  var user = $cookies.user ? JSON.parse($cookies.user) : {};
 
   this.getNotes = function() {
     return notes;
   };
 
-  this.fetchNotes = function() {
-    $http.get(apiBasePath + 'notes.json?api_key=' + apiKey).success(function(noteData) {
-      notes = noteData;
+  this.getUser = function() {
+    return user;
+  };
+
+  this.fetchUser = function(user) {
+    // /api/v1/session (expecting { "user" : { "username": "jchristos", "password": "something" } } as POST)
+    var self = this;
+    $http.post(apiBasePath + 'session', {
+      user: {
+        username: user.username,
+        password: user.password
+      }
+    }).success(function(userData) {
+      user = userData;
+      // '{"username": "jchristos", ..}'
+      $cookies.user = JSON.stringify(user);
+      self.fetchNotes();
     });
+  };
+
+  this.fetchNotes = function() {
+    if (user.api_key !== undefined) {
+      $http.get(apiBasePath + 'notes.json?api_key=' + user.api_key).success(function(noteData) {
+        notes = noteData;
+      });
+    }
   };
 
   this.postNote = function(note) {
     $http.post(postNotePath, {
-      api_key: apiKey,
+      api_key: user.api_key,
       note: {
         title: note.title,
         body_html: note.body_html
@@ -55,7 +79,7 @@ app.service('NotesBackend', function($http) {
 
   this.deleteNote = function(note) {
     var self = this;
-    $http.delete(apiBasePath + 'notes/'+ note.id + '?api_key=' + apiKey)
+    $http.delete(apiBasePath + 'notes/'+ note.id + '?api_key=' + user.api_key)
     .success(function() {
       self.fetchNotes();
     });
@@ -72,7 +96,7 @@ app.service('NotesBackend', function($http) {
   this.updateNote = function(note) {
     var self = this;
     $http.put(apiBasePath + 'notes/' + note.id, {
-      api_key: apiKey,
+      api_key: user.api_key,
       note: note
     }).success(function(newNoteData) {
       self.replaceNote(newNoteData);
